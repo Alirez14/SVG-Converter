@@ -5,84 +5,119 @@
 #ifndef SVG_CONVERTER_IMAGE_H
 #define SVG_CONVERTER_IMAGE_H
 
-struct Line{
-    int x0 ,x1,y0,y1;
-    char* Color;
+struct Line {
+    int x0, x1, y0, y1;
+    char *Color;
 
 };
-struct Pixel{
+struct Pixel {
 
-    char*ColorHash;
-    char*Color;
+    char *ColorHash;
+    char *Color;
 
-    char*ColorPP;
-
-
+    char *ColorPP;
 
 
 };
 
 
-char * Converter(char* ColorHash,char* Color){
+char *Converter(char *Color) {
 
+    char *Beggin = "#";
+
+
+    char *first = strstr(Color, Beggin);
+
+    if (strcmp(Color, "black") == 0) {
+        return "0 0 0";
+
+
+    } else if (strcmp(Color, "red") == 0) {
+
+        return "255 0 0";
+    } else if (strcmp(Color, "green") == 0) {
+        return "0 255 0";
+
+    } else if (strcmp(Color, "blue") == 0) {
+        return "0 0 255";
+
+
+    } else if (strcmp(Color, "cyan") == 0) {
+        return "0 255 255";
+
+
+    } else if (strcmp(Color, "yellow") == 0) {
+        return "255 255 0";
+
+
+    } else if (first != NULL) {
+
+        char *str = strtok(first, "#");
+        int r, g, b;
+        sscanf(str, "%02x%02x%02x", &r, &g, &b);
+        char *stro[11];
+        sprintf((char *) stro, "%d %d %d", r, g, b);
+        char *Ret = (char *) stro;
+        return Ret;
+
+
+    } else {
+        return NULL;
+
+
+    }
 
 
 }
 
-int Width (char* in ){
+int Width(char *in) {
 
-    int Width=0;
-    char * Beggin = "<svg";
-
-
-
-
-        char *first = strstr(in, Beggin);
-
-        if (first!=NULL){
-            int count =0;
-            char *p = in;
-            while (*p) {
-                if (isdigit(*p)) {
-                    long val = strtol(p, &p, 10);
-                        Width=(int)(val);
-                    break;
-
-
-                } else {
-                    p++;
-                }
-            }
-            return Width;
-
-        } else{
-
-            return -1;
-        }
-
-
-
-
-
-}
-int Height (char* in ){
-
-    int Height=0;
-    char * Beggin = "<svg";
-
-
+    int Width = 0;
+    char *Beggin = "<svg";
 
 
     char *first = strstr(in, Beggin);
 
-    if (first!=NULL){
-        int count =0;
+    if (first != NULL) {
+        int count = 0;
         char *p = in;
         while (*p) {
             if (isdigit(*p)) {
                 long val = strtol(p, &p, 10);
-                if (count==1){
-                    Height=(int)(val);
+                Width = (int) (val);
+                break;
+
+
+            } else {
+                p++;
+            }
+        }
+        return Width;
+
+    } else {
+
+        return -1;
+    }
+
+
+}
+
+int Height(char *in) {
+
+    int Height = 0;
+    char *Beggin = "<svg";
+
+
+    char *first = strstr(in, Beggin);
+
+    if (first != NULL) {
+        int count = 0;
+        char *p = in;
+        while (*p) {
+            if (isdigit(*p)) {
+                long val = strtol(p, &p, 10);
+                if (count == 1) {
+                    Height = (int) (val);
                     break;
                 }
                 count++;
@@ -93,35 +128,30 @@ int Height (char* in ){
         }
         return Height;
 
-    } else{
+    } else {
 
         return -1;
     }
 
 
-
-
-
 }
 
-int X0 (char* in ){
+int X0(char *in) {
 
-    int X0=0;
-    char * Beggin = "<line";
-
-
+    int X0 = 0;
+    char *Beggin = "<line";
 
 
     char *first = strstr(in, Beggin);
 
-    if (first!=NULL){
-        int count =0;
+    if (first != NULL) {
+        int count = 0;
         char *p = in;
         while (*p) {
             if (isdigit(*p)) {
                 long val = strtol(p, &p, 10);
-                if (count==1){
-                    X0=(int)(val);
+                if (count == 1) {
+                    X0 = (int) (val);
                     break;
                 }
                 count++;
@@ -132,33 +162,29 @@ int X0 (char* in ){
         }
         return X0;
 
-    } else{
+    } else {
 
         return -1;
     }
 
 
-
-
-
 }
-int Y0 (char* in ){
-    int X0=0;
-    char * Beggin = "<line";
 
-
+int Y0(char *in) {
+    int X0 = 0;
+    char *Beggin = "<line";
 
 
     char *first = strstr(in, Beggin);
 
-    if (first!=NULL){
-        int count =0;
+    if (first != NULL) {
+        int count = 0;
         char *p = in;
         while (*p) {
             if (isdigit(*p)) {
                 long val = strtol(p, &p, 10);
-                if (count==3){
-                    X0=(int)(val);
+                if (count == 3) {
+                    X0 = (int) (val);
                     break;
                 }
                 count++;
@@ -169,33 +195,29 @@ int Y0 (char* in ){
         }
         return X0;
 
-    } else{
+    } else {
 
         return -1;
     }
 
 
-
-
-
 }
-int X1 (char* in ){
-    int X0=0;
-    char * Beggin = "<line";
 
-
+int X1(char *in) {
+    int X0 = 0;
+    char *Beggin = "<line";
 
 
     char *first = strstr(in, Beggin);
 
-    if (first!=NULL){
-        int count =0;
+    if (first != NULL) {
+        int count = 0;
         char *p = in;
         while (*p) {
             if (isdigit(*p)) {
                 long val = strtol(p, &p, 10);
-                if (count==5){
-                    X0=(int)(val);
+                if (count == 5) {
+                    X0 = (int) (val);
                     break;
                 }
                 count++;
@@ -206,32 +228,29 @@ int X1 (char* in ){
         }
         return X0;
 
-    } else{
+    } else {
 
         return -1;
     }
 
 
-
-
 }
-int Y1 (char* in ){
-    int X0=0;
-    char * Beggin = "<line";
 
-
+int Y1(char *in) {
+    int X0 = 0;
+    char *Beggin = "<line";
 
 
     char *first = strstr(in, Beggin);
 
-    if (first!=NULL){
-        int count =0;
+    if (first != NULL) {
+        int count = 0;
         char *p = in;
         while (*p) {
             if (isdigit(*p)) {
                 long val = strtol(p, &p, 10);
-                if (count==7){
-                    X0=(int)(val);
+                if (count == 7) {
+                    X0 = (int) (val);
                     break;
                 }
                 count++;
@@ -242,36 +261,31 @@ int Y1 (char* in ){
         }
         return X0;
 
-    } else{
+    } else {
 
         return -1;
     }
 
 
-
-
-
 }
-char* Stroke(char*in){
-    char * Beggin = "stroke";
 
-
+char *Stroke(char *in) {
+    char *Beggin = "stroke";
 
 
     char *first = strstr(in, Beggin);
 
-    char* pch = strtok (first,"\"");
-    pch = strtok (NULL, "\"");
+    char *pch = strtok(first, "\"");
+    pch = strtok(NULL, "\"");
     return pch;
 }
-int counter (FILE * fp){
+
+int counter(FILE *fp) {
     char ch;
-    int lines=0;
-    while(!feof(fp))
-    {
+    int lines = 0;
+    while (!feof(fp)) {
         ch = fgetc(fp);
-        if(ch == '\n')
-        {
+        if (ch == '\n') {
             lines++;
         }
     }

@@ -12,14 +12,34 @@ struct Line {
 };
 struct Pixel {
 
-    char *ColorHash;
     char *Color;
 
-    char *ColorPP;
 
 
 };
 
+void Draw(int width, int height, char *name, struct Pixel Pixels[width][height]) {
+
+    FILE *fptr;
+    fptr = fptr = fopen(name, "w");
+    if (fptr == NULL) {
+        printf("Error!");
+        exit(1);
+    }
+    fprintf(fptr, "%s\n", "P3");
+    fprintf(fptr, "%d %d\n", width, height);
+    fprintf(fptr, "%d\n", 255);
+    for (int i = 0; i < width; ++i) {
+        for (int j = 0; j < height; ++j) {
+            fprintf(fptr, "%s  ",Pixels[i][j].Color );
+        }
+        fprintf(fptr, "\n");
+    }
+
+
+    fclose(fptr);
+
+}
 
 char *Converter(char *Color) {
 
@@ -287,6 +307,12 @@ int counter(FILE *fp) {
         ch = fgetc(fp);
         if (ch == '\n') {
             lines++;
+        }
+        else if(ch=='<'){
+            ch=fgetc(fp);
+            if (ch=='/'){
+                break;
+            }
         }
     }
 
